@@ -1,5 +1,6 @@
 import "./App.css";
 import { useEffect, useState } from "react";
+const API_BASE = "course-management-backend-production.up.railway.app";
 
 function App() {
   const [tab, setTab] = useState("courses");
@@ -27,16 +28,16 @@ function App() {
   // Fetch based on active tab
   useEffect(() => {
     if (tab === "courses") {
-      fetch("http://localhost:8081/api/courses").then(res => res.json()).then(setCourses);
+      fetch("${API_BASE}/courses").then(res => res.json()).then(setCourses);
     }
     if (tab === "students") {
-      fetch("http://localhost:8081/api/students").then(res => res.json()).then(setStudents);
+      fetch("${API_BASE}/students").then(res => res.json()).then(setStudents);
     }
     if (tab === "registrations") {
-      fetch("http://localhost:8081/api/registrations").then(res => res.json()).then(setRegistrations);
+      fetch("${API_BASE}/registrations").then(res => res.json()).then(setRegistrations);
     }
     if (tab === "results") {
-      fetch("http://localhost:8081/api/results").then(res => res.json()).then(setResults);
+      fetch("${API_BASE}/results").then(res => res.json()).then(setResults);
     }
   }, [tab]);
 
@@ -45,7 +46,7 @@ function App() {
   const submitCourse = async (e) => {
     e.preventDefault();
     if (editingCourse) {
-      const res = await fetch(`http://localhost:8081/api/courses/${editingCourse.id}`, {
+      const res = await fetch(`${API_BASE}/courses/${editingCourse.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(courseForm)
@@ -54,7 +55,7 @@ function App() {
       setCourses(courses.map(c => c.id === updated.id ? updated : c));
       setEditingCourse(null);
     } else {
-      const res = await fetch("http://localhost:8081/api/courses", {
+      const res = await fetch("${API_BASE}/courses", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(courseForm)
@@ -66,7 +67,7 @@ function App() {
   };
 
   const handleDeleteCourse = async (id) => {
-    await fetch(`http://localhost:8081/api/courses/${id}`, { method: "DELETE" });
+    await fetch(`${API_BASE}/courses/${id}`, { method: "DELETE" });
     setCourses(courses.filter(c => c.id !== id));
   };
 
@@ -79,7 +80,7 @@ function App() {
   const submitStudent = async (e) => {
     e.preventDefault();
     if (editingStudent) {
-      const res = await fetch(`http://localhost:8081/api/students/${editingStudent.id}`, {
+      const res = await fetch(`${API_BASE}/students/${editingStudent.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(studentForm)
@@ -88,7 +89,7 @@ function App() {
       setStudents(students.map(s => s.id === updated.id ? updated : s));
       setEditingStudent(null);
     } else {
-      const res = await fetch("http://localhost:8081/api/students", {
+      const res = await fetch("${API_BASE}/students", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(studentForm)
@@ -100,7 +101,7 @@ function App() {
   };
 
   const handleDeleteStudent = async (id) => {
-    await fetch(`http://localhost:8081/api/students/${id}`, { method: "DELETE" });
+    await fetch(`${API_BASE}/students/${id}`, { method: "DELETE" });
     setStudents(students.filter(s => s.id !== id));
   };
 
@@ -113,7 +114,7 @@ function App() {
   const submitRegistration = async (e) => {
     e.preventDefault();
     if (editingRegistration) {
-      const res = await fetch(`http://localhost:8081/api/registrations/${editingRegistration.id}`, {
+      const res = await fetch(`${API_BASE}/registrations/${editingRegistration.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(registrationForm)
@@ -122,7 +123,7 @@ function App() {
       setRegistrations(registrations.map(r => r.id === updated.id ? updated : r));
       setEditingRegistration(null);
     } else {
-      const res = await fetch("http://localhost:8081/api/registrations", {
+      const res = await fetch("${API_BASE}/registrations", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(registrationForm)
@@ -134,7 +135,7 @@ function App() {
   };
 
   const handleDeleteRegistration = async (id) => {
-    await fetch(`http://localhost:8081/api/registrations/${id}`, { method: "DELETE" });
+    await fetch(`${API_BASE}/registrations/${id}`, { method: "DELETE" });
     setRegistrations(registrations.filter(r => r.id !== id));
   };
 
@@ -147,7 +148,7 @@ function App() {
   const submitResult = async (e) => {
     e.preventDefault();
     if (editingResult) {
-      const res = await fetch(`http://localhost:8081/api/results/${editingResult.id}`, {
+      const res = await fetch(`${API_BASE}/results/${editingResult.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(resultForm)
@@ -156,7 +157,7 @@ function App() {
       setResults(results.map(r => r.id === updated.id ? updated : r));
       setEditingResult(null);
     } else {
-      const res = await fetch("http://localhost:8081/api/results", {
+      const res = await fetch("${API_BASE}/results", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(resultForm)
@@ -168,7 +169,7 @@ function App() {
   };
 
   const handleDeleteResult = async (id) => {
-    await fetch(`http://localhost:8081/api/results/${id}`, { method: "DELETE" });
+    await fetch(`${API_BASE}/results/${id}`, { method: "DELETE" });
     setResults(results.filter(r => r.id !== id));
   };
 
