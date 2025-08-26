@@ -1,6 +1,7 @@
-import "./App.css";
+import "./App.css"; 
 import { useEffect, useState } from "react";
-const API_BASE = "course-management-backend-production.up.railway.app";
+
+const API_BASE = "https://course-management-backend-production.up.railway.app/api";
 
 function App() {
   const [tab, setTab] = useState("courses");
@@ -28,16 +29,16 @@ function App() {
   // Fetch based on active tab
   useEffect(() => {
     if (tab === "courses") {
-      fetch("${API_BASE}/courses").then(res => res.json()).then(setCourses);
+      fetch(`${API_BASE}/courses`).then(res => res.json()).then(setCourses);
     }
     if (tab === "students") {
-      fetch("${API_BASE}/students").then(res => res.json()).then(setStudents);
+      fetch(`${API_BASE}/students`).then(res => res.json()).then(setStudents);
     }
     if (tab === "registrations") {
-      fetch("${API_BASE}/registrations").then(res => res.json()).then(setRegistrations);
+      fetch(`${API_BASE}/registrations`).then(res => res.json()).then(setRegistrations);
     }
     if (tab === "results") {
-      fetch("${API_BASE}/results").then(res => res.json()).then(setResults);
+      fetch(`${API_BASE}/results`).then(res => res.json()).then(setResults);
     }
   }, [tab]);
 
@@ -55,7 +56,7 @@ function App() {
       setCourses(courses.map(c => c.id === updated.id ? updated : c));
       setEditingCourse(null);
     } else {
-      const res = await fetch("${API_BASE}/courses", {
+      const res = await fetch(`${API_BASE}/courses`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(courseForm)
@@ -89,7 +90,7 @@ function App() {
       setStudents(students.map(s => s.id === updated.id ? updated : s));
       setEditingStudent(null);
     } else {
-      const res = await fetch("${API_BASE}/students", {
+      const res = await fetch(`${API_BASE}/students`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(studentForm)
@@ -123,7 +124,7 @@ function App() {
       setRegistrations(registrations.map(r => r.id === updated.id ? updated : r));
       setEditingRegistration(null);
     } else {
-      const res = await fetch("${API_BASE}/registrations", {
+      const res = await fetch(`${API_BASE}/registrations`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(registrationForm)
@@ -157,7 +158,7 @@ function App() {
       setResults(results.map(r => r.id === updated.id ? updated : r));
       setEditingResult(null);
     } else {
-      const res = await fetch("${API_BASE}/results", {
+      const res = await fetch(`${API_BASE}/results`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(resultForm)
