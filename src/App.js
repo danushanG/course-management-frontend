@@ -1,12 +1,10 @@
-import "./App.css";
+import "./App.css"; 
 import { useEffect, useState } from "react";
-import Login from "./Login"; // new Login component
 
 const API_BASE = "https://course-management-backend-production.up.railway.app/api";
 
 function App() {
   const [tab, setTab] = useState("courses");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // === Courses ===
   const [courses, setCourses] = useState([]);
@@ -28,16 +26,8 @@ function App() {
   const [resultForm, setResultForm] = useState({ registrationId: "", grade: "" });
   const [editingResult, setEditingResult] = useState(null);
 
-  // === Check login status ===
+  // Fetch based on active tab
   useEffect(() => {
-    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
-    setIsLoggedIn(loggedIn);
-  }, []);
-
-  // === Fetch data based on active tab ===
-  useEffect(() => {
-    if (!isLoggedIn) return; // don’t fetch until logged in
-
     if (tab === "courses") {
       fetch(`${API_BASE}/courses`).then(res => res.json()).then(setCourses);
     }
@@ -50,9 +40,10 @@ function App() {
     if (tab === "results") {
       fetch(`${API_BASE}/results`).then(res => res.json()).then(setResults);
     }
-  }, [tab, isLoggedIn]);
+  }, [tab]);
 
-  // === COURSE handlers ===
+  // === Handlers ===
+  // Submit Course
   const submitCourse = async (e) => {
     e.preventDefault();
     if (editingCourse) {
@@ -86,7 +77,7 @@ function App() {
     setCourseForm({ code: course.code, title: course.title });
   };
 
-  // === STUDENT handlers ===
+  // === Students ===
   const submitStudent = async (e) => {
     e.preventDefault();
     if (editingStudent) {
@@ -120,7 +111,7 @@ function App() {
     setStudentForm({ regNo: student.regNo, name: student.name, email: student.email });
   };
 
-  // === REGISTRATION handlers ===
+  // === Registrations ===
   const submitRegistration = async (e) => {
     e.preventDefault();
     if (editingRegistration) {
@@ -154,7 +145,7 @@ function App() {
     setRegistrationForm({ studentId: registration.studentId, courseId: registration.courseId, semester: registration.semester });
   };
 
-  // === RESULT handlers ===
+  // === Results ===
   const submitResult = async (e) => {
     e.preventDefault();
     if (editingResult) {
@@ -188,25 +179,9 @@ function App() {
     setResultForm({ registrationId: result.registrationId, grade: result.grade });
   };
 
-  // === Render ===
-  if (!isLoggedIn) {
-    return <Login onLogin={() => setIsLoggedIn(true)} />;
-  }
-
   return (
     <div className="container">
-      <div className="header">
-        <h1 className="title">University Course Management System</h1>
-        <button
-          className="btn-logout"
-          onClick={() => {
-            localStorage.removeItem("isLoggedIn");
-            setIsLoggedIn(false);
-          }}
-        >
-          Logout
-        </button>
-      </div>
+      <h1 className="title">University Course Management System</h1>
 
       {/* Tabs */}
       <div className="tabs">
